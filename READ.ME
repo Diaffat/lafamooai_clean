@@ -1,0 +1,63 @@
+# LafamooAI Desktop
+
+## Installation
+
+```bash
+npm install
+```
+
+## Lancer l'application en développement
+
+```bash
+npm start
+```
+
+ou
+
+```bash
+npx electron .
+```
+
+## Construire le frontend Next.js
+
+Dans `next.config.mjs`, vérifier que :
+
+```js
+output: "standalone";
+```
+
+Puis exécuter :
+
+```bash
+npm run build
+```
+
+## Générer l'installateur Windows (l'executable):
+installer npm install -D electron-builder si pas fait.
+
+Ensuite:
+
+```bash
+npm run dist
+```
+
+Les fichiers générés seront dans :
+
+```
+dist/
+```
+
+- `Lafamooai_Desktop Setup 1.0.0.exe` → installateur Windows
+- `win-unpacked/Lafamooai_Desktop.exe` → version portable
+
+
+Pour un rebuild complet faire simplement dans le dossier electron:
+```bash
+npm run build-all
+```
+si ce genre derreur apparait:
+.next/dev/types/routes.d.ts:83:1
+Type error: Expression expected.
+
+supprimer simplement manuellement le dossier .next
+qui se trouve dans le projet Next (nextjs-lafamooai).

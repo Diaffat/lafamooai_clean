@@ -1,0 +1,54 @@
+{
+  "name": "lafamooai-desktop",
+  "version": "1.0.1",
+  "description": "Application de gestion scolaire LafamooAI",
+  "author": "LafamooAi",
+  "main": "main.js",
+  "scripts": {
+  "start": "electron .",
+  "clean": "if exist .next rd /s /q .next && if exist dist rd /s /q dist && if exist express_backend_lafamooai rd /s /q express_backend_lafamooai",
+  "prepare-backend": "cd ../express_backend_lafamooai && npm install && npm prune --omit=dev",
+  "build-next": "cd ../nextjs-lafamooai && npm run build",
+  "copy-next": "robocopy ..\\nextjs-lafamooai\\.next\\standalone .next\\standalone /E & robocopy ..\\nextjs-lafamooai\\.next\\static .next\\standalone\\.next\\static /E & if %ERRORLEVEL% LSS 8 exit /b 0",
+  "copy-public": "robocopy ..\\nextjs-lafamooai\\public .next\\standalone\\public /MIR & if %ERRORLEVEL% LSS 8 exit /b 0",
+  "copy-express": "robocopy ..\\express_backend_lafamooai express_backend_lafamooai /MIR & if %ERRORLEVEL% LSS 8 exit /b 0",
+  "dist": "electron-builder",
+  "build-all": "npm run clean && npm run prepare-backend && npm run build-next && npm run copy-express && npm run dist"
+},
+  "dependencies": {
+    "express": "^5.2.1",
+    "wait-on": "^9.0.10"
+  },
+  "devDependencies": {
+    "electron": "^41.2.0",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.lafamooai.desktop",
+    "productName": "LafamooAi_Desktop",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "icon": "public/icon_.ico",
+    "files": [
+      "main.js",
+      "package.json",
+      "orchestrator.js",
+      "public/**/*",
+      "express_backend_lafamooai/**/*",
+      {
+        "from": ".next",
+        "to": ".next",
+        "filter": [
+          "**/*",
+          "**/.*",
+          "**/.next/**/*"
+        ]
+      }
+    ],
+    "asar": false
+  }
+}
